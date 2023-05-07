@@ -1,9 +1,8 @@
 import Section from './Section/Section';
 import FeedbackOptions from './Feedback/Feedback';
 import Statistics from './Statistics/Statistics';
+import NotificationMessage from './NotificationMessage/NotificationMessage';
 import { Component } from 'react';
-import { NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
 
 class App extends Component {
   state = {
@@ -12,21 +11,9 @@ class App extends Component {
     bad: 0,
   };
 
-  handleGoodFeedback = () => {
+  handleFeedback = type => {
     this.setState(prevState => ({
-      good: prevState.good + 1,
-    }));
-  };
-
-  handleNeutralFeedback = () => {
-    this.setState(prevState => ({
-      neutral: prevState.neutral + 1,
-    }));
-  };
-
-  handleBadFeedback = () => {
-    this.setState(prevState => ({
-      bad: prevState.bad + 1,
+      [type]: prevState[type] + 1,
     }));
   };
 
@@ -41,29 +28,24 @@ class App extends Component {
 
   render() {
     const { good, neutral, bad } = this.state;
-    const totalFeedbacks = this.handleTotalFeedback();
-    const positivePercentage = this.handlePositivePercentage();
+
     return (
       <div>
         <Section title="Please leave feedback">
-          <FeedbackOptions
-            handleGoodFeedback={this.handleGoodFeedback}
-            handleNeutralFeedback={this.handleNeutralFeedback}
-            handleBadFeedback={this.handleBadFeedback}
-          />
+          <FeedbackOptions handleFeedback={this.handleFeedback} />
         </Section>
-        {totalFeedbacks ? (
+        {this.handleTotalFeedback() ? (
           <Section title="Statistics">
             <Statistics
               good={good}
               neutral={neutral}
               bad={bad}
-              total={totalFeedbacks}
-              positivePercentage={positivePercentage}
+              total={this.handleTotalFeedback()}
+              positivePercentage={this.handlePositivePercentage()}
             />
           </Section>
         ) : (
-          NotificationManager.info('There is no feedback')
+          <NotificationMessage />
         )}
       </div>
     );

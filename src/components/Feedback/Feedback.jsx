@@ -27,28 +27,27 @@ const buttonWrapper = css`
 
 class FeedbackOptions extends Component {
   render() {
-    const { handleGoodFeedback, handleNeutralFeedback, handleBadFeedback } =
-      this.props;
+    const { handleFeedback } = this.props;
     return (
       <div className={buttonWrapper}>
         <button
           type="button"
           className={buttonStyles}
-          onClick={handleGoodFeedback}
+          onClick={() => handleFeedback('good')}
         >
           Good
         </button>
         <button
           type="button"
           className={buttonStyles}
-          onClick={handleNeutralFeedback}
+          onClick={() => handleFeedback('neutral')}
         >
           Neutral
         </button>
         <button
           type="button"
           className={buttonStyles}
-          onClick={handleBadFeedback}
+          onClick={() => handleFeedback('bad')}
         >
           Bad
         </button>
@@ -58,9 +57,7 @@ class FeedbackOptions extends Component {
 }
 
 FeedbackOptions.propTypes = {
-  handleGoodFeedback: PropTypes.func.isRequired,
-  handleNeutralFeedback: PropTypes.func.isRequired,
-  handleBadFeedback: PropTypes.func.isRequired,
+  handleFeedback: PropTypes.func.isRequired,
 };
 
 export default FeedbackOptions;
